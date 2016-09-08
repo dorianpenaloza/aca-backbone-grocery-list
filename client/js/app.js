@@ -1,12 +1,16 @@
 const $ = require('jquery');
-
+const GroceriesCollection = require('./collections/GroceriesCollection');
 // Set jQuery in the window
 window.$ = window.jQuery = $;
 
-const app = document.querySelector('#app');
+const GroceryListView = require('./views/GroceryListView');
 
-// Set greeting
-const greeting = document.createElement('h2');
-greeting.innerText = 'Express Backbone Starter App!';
+const groceries = new GroceriesCollection();
+groceries.fetch({
+  success: () => {
+    const view = new GroceryListView({ collection: groceries });
+    const app = document.querySelector('#app');
 
-app.appendChild(greeting);
+    app.appendChild(view.render().el);
+  }
+ });
